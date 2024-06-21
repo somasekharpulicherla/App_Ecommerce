@@ -1,0 +1,7 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+public class UserResponse {
+	
+	Private User
+
+}

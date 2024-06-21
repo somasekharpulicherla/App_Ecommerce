@@ -1,0 +1,9 @@
+package com.ecommerce.AppEcommerce.globalExceptions;
+
+public class GlobalApplicationRuntimeException {
+	
+	public GlobalApplicationRuntimeException(String message) {
+		super(message);
+	}
+
+}

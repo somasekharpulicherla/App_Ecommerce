@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your OTP Code</title>
+</head>
+<body>
+    <h3>Hello, ${name}</h3>
+    <p>Your One Time Passcode is: <strong>${otp}</strong></p>
+    <p>Please use this code to complete your authentication.</p>
+</body>
+</html>

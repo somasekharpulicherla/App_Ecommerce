@@ -1,0 +1,27 @@
+package com.ecommerce.AppEcommerce.user.enums;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+
+public class GenderValidator implements ConstraintValidator<ValidGender, String> {
+
+    @Override
+    public void initialize(ValidGender constraintAnnotation) {
+        // No initialization needed
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return false; // or true, depending on your null handling strategy
+        }
+
+        // Validate against accepted gender values
+        try {
+            Gender.valueOf(value); // This will throw IllegalArgumentException if value is not valid enum constant
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+}

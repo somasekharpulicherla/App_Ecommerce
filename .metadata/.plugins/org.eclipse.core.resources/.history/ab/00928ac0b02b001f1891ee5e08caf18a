@@ -1,0 +1,7 @@
+package com.ecommerce.AppEcommerce.globalServices;
+
+public interface GlobalService {
+	
+	boolean sendEmail(EmailRequest emailRequest);
+
+}

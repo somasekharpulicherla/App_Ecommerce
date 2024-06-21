@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Update Successful</title>
+</head>
+<body>
+    <h2>Dear  [[${name}]],</h2>
+    <p>Your password has been successfully updated.</p>
+    <p>If you did not initiate this change, please contact support immediately.</p>
+    <p>Thank you!</p>
+</body>
+</html>

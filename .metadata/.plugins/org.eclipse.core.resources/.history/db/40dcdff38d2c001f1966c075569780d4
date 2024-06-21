@@ -1,0 +1,171 @@
+package com.ecommerce.AppEcommerce.user.serviceImpl;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.AppEcommerce.global.entities.EmailRequest;
+import com.ecommerce.AppEcommerce.globalExceptions.GlobalApplicationRuntimeException;
+import com.ecommerce.AppEcommerce.globalServices.GlobalService;
+import com.ecommerce.AppEcommerce.globalServices.GlobalServiceImpl;
+import com.ecommerce.AppEcommerce.user.entities.User;
+import com.ecommerce.AppEcommerce.user.exceptions.EmailAlreadyExistsException;
+import com.ecommerce.AppEcommerce.user.exceptions.InvalidCredentialsException;
+import com.ecommerce.AppEcommerce.user.exceptions.UserNotFoundException;
+import com.ecommerce.AppEcommerce.user.exceptions.UsernameAlreadyExistsException;
+import com.ecommerce.AppEcommerce.user.repository.UserRepository;
+import com.ecommerce.AppEcommerce.user.requestResponses.AddUserRequest;
+import com.ecommerce.AppEcommerce.user.requestResponses.AddUserResponse;
+import com.ecommerce.AppEcommerce.user.requestResponses.UserForgetPasscodeRequest;
+import com.ecommerce.AppEcommerce.user.requestResponses.UserForgetPasscodeResponse;
+import com.ecommerce.AppEcommerce.user.requestResponses.UserLoginRequest;
+import com.ecommerce.AppEcommerce.user.requestResponses.UserLoginResponse;
+import com.ecommerce.AppEcommerce.user.requestResponses.UserValidateOtpRequest;
+import com.ecommerce.AppEcommerce.user.requestResponses.UserValidateOtpResponse;
+import com.ecommerce.AppEcommerce.user.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+	@Autowired
+	private UserRepository userRepo;
+
+	@Autowired
+	private GlobalService globalService;
+
+	@Override
+	public Optional<AddUserResponse> addUser(AddUserRequest addUserRequest)
+			throws EmailAlreadyExistsException, UsernameAlreadyExistsException, GlobalApplicationRuntimeException {
+
+		try {
+
+			userRepo.findByEmail(addUserRequest.getEmail()).ifPresent(user -> {
+				log.error("Email already exists Exception occured :" + addUserRequest.getEmail());
+				throw new EmailAlreadyExistsException("Email " + addUserRequest.getEmail() + " already exists.");
+			});
+
+			userRepo.findByUsername(addUserRequest.getUsername()).ifPresent(user -> {
+				log.error("Username already exists Exception occured :" + addUserRequest.getUsername());
+				throw new UsernameAlreadyExistsException(
+						"Username " + addUserRequest.getUsername() + " already exists.");
+			});
+
+			User user = new User();
+			BeanUtils.copyProperties(addUserRequest, user);
+			user = userRepo.save(user);
+
+			final String USER_EMAIL = user.getEmail();
+			final String USER_NAME = user.getFirstName();
+			new Thread(() -> {
+				globalService.sendEmail(
+						new EmailRequest(USER_EMAIL, "Welcome to Sooha's food court", "registrationTemplate"),
+						Collections.singletonMap("name", USER_NAME));
+			}).start();
+
+			log.info("User added successfully :" + user);
+			return Optional.of(new AddUserResponse("Added user successfully.", user,null));
+
+		} catch (EmailAlreadyExistsException | UsernameAlreadyExistsException e) {
+			throw e;
+		} catch (Exception e) {
+
+			log.error("Error occured during addUser :" + e);
+			throw new GlobalApplicationRuntimeException("Error occured while adding User.");
+		}
+	}
+
+	@Override
+	public Optional<UserLoginResponse> userLogin(UserLoginRequest userLoginRequest) throws UserNotFoundException,InvalidCredentialsException {
+		try {
+
+			User user = userRepo
+					.findByUsernameOrEmail(userLoginRequest.getUsernameOrEmail(), userLoginRequest.getUsernameOrEmail())
+					.orElseThrow(() -> new UserNotFoundException("User doesn't exist with Username or Email."));
+
+			if (!user.getPasscode().equals(userLoginRequest.getPasscode())) {
+				throw new InvalidCredentialsException("Incorrect credentials provided.");
+			}
+
+			log.info("User logged successfully :" + user);
+			return Optional.of(new UserLoginResponse("User logged in successfully!", true, user,null));
+		} catch (UserNotFoundException |InvalidCredentialsException e) {
+			throw e;
+		} catch (Exception e) {
+			log.error("Error occured during login :" + e);
+			throw new GlobalApplicationRuntimeException("Error occured while trying to login.");
+		}
+	}
+
+	@Override
+	public Optional<UserForgetPasscodeResponse> forgetPasscode(UserForgetPasscodeRequest userForgetPasscodeRequest) throws UserNotFoundException {
+		try {
+
+			User user = userRepo
+					.findByUsernameOrEmail(userForgetPasscodeRequest.getUsernameOrEmail(), userForgetPasscodeRequest.getUsernameOrEmail())
+					.orElseThrow(() -> new UserNotFoundException("User doesn't exist with Username or Email."));
+
+			final String USER_EMAIL = user.getEmail();
+			final String USER_NAME = user.getFirstName();
+			final int otp=globalService.generateOtp();
+			Map<String,Object> validateFields=new HashMap<>();
+			validateFields.put("name", USER_NAME);
+			validateFields.put("otp", otp);
+			new Thread(() -> {
+				globalService.sendEmail(
+						new EmailRequest(USER_EMAIL, "Your One Time Passcode", "forgetPasscodeTemplate"),
+						validateFields);
+			}).start();			
+			userRepo.updateOtpByEmail(USER_EMAIL,otp);
+			log.info("User successfully requested otp :" + user);
+			return Optional.of(new UserForgetPasscodeResponse("Please enter OTP that has sent to your register mail!",null));
+		} catch (UserNotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			log.error("Error occured while trying to forget passcode :" + e);
+			throw new GlobalApplicationRuntimeException("Error occured while trying to forget passcode.");
+		}
+	}
+
+	@Override
+	public Optional<UserValidateOtpResponse> userValidateOtp(UserValidateOtpRequest userValidateOtpRequest) {
+		try {
+
+			User user = userRepo
+					.findByUsernameOrEmail(userValidateOtpRequest.getUsernameOrEmail(), userValidateOtpRequest.getUsernameOrEmail())
+					.orElseThrow(() -> new UserNotFoundException("User doesn't exist with Username or Email."));
+			
+			if(useruser.getOtp()!=null && !user.getOtp().equals(userValidateOtpRequest.getOtp()))
+				return Optional.of(new UserValidateOtpResponse("Enter Valid One Time Passcode!","Please enter valid One time passcode!"));
+       
+				
+			final String USER_EMAIL = user.getEmail();
+			final String USER_NAME = user.getFirstName();
+            userRepo.updatePasscodeByEmail(USER_EMAIL,userValidateOtpRequest.getPasscode());
+			new Thread(() -> {
+				globalService.sendEmail(
+						new EmailRequest(USER_EMAIL, "Your passcode has been changed successfully", "updatePasscodeTemplate"),
+						Collections.singletonMap("name", USER_NAME));
+			}).start();	
+			
+			log.info("User successfully updated Passcode :" + user);
+			return Optional.of(new UserValidateOtpResponse("Your passcode updated successfully!",null));
+		} catch (UserNotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			log.error("Error occured while trying to Validate passcode :" + e);
+			throw new GlobalApplicationRuntimeException("Error occured while trying to validate and update Passcode.");
+		}
+	}
+
+}

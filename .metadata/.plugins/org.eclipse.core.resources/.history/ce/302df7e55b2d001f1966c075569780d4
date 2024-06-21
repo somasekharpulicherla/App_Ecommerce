@@ -1,0 +1,40 @@
+package com.ecommerce.AppEcommerce.springsecurityjwt;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.AppEcommerce.user.entities.User;
+import com.ecommerce.AppEcommerce.user.exceptions.UserNotFoundException;
+import com.ecommerce.AppEcommerce.user.repository.UserRepository;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
+@Service
+public class MyUserDetailsService implements UserDetailsService {
+	
+	private final s
+	@Autowired
+	private UserRepository userRepo;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UserNotFoundException {
+    	try {
+    	User user = userRepo
+				.findByUsernameOrEmail(username, username)
+				.orElseThrow(() -> new UserNotFoundException("User doesn't exist with Username or Email."));
+        if ("user".equals(username)) {
+            return new User("user", "$2a$10$T0T5y5wXx5We2Y2VKkECh.C2C46T0y.H8h6HrJ5kGdBd0OHw4EVpa", new ArrayList<>());
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+    	}catch(UserNotFoundException e) {
+    		throw e;
+    	}catch(Exception e) {
+    		log.error(" error occured MyUserDetailsService:"+e);
+    	}
+    }
+}

@@ -1,0 +1,8 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+public class UserResponse {
+	
+	private String userStatus;
+	
+
+}

@@ -1,0 +1,40 @@
+package com.ecommerce.AppEcommerce.globalServices;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+
+import com.ecommerce.AppEcommerce.global.entities.EmailRequest;
+
+import jakarta.mail.MessagingException;
+
+@Service
+public class GlobalServiceImpl implements GlobalService {
+	
+	public static final Logger log=LoggerFactory.getLogger(GlobalServiceImpl.class);
+	
+	@Autowired
+	private EmailService emailService;
+	
+	 public boolean sendEmail(EmailRequest emailRequest,Map<String,String> mapVariables) {
+	        try {
+	        	
+	        	Context context = new Context();
+	            context.setVariables(templateModel);
+	            
+	            String htmlContent = templateEngine.process("emailTemplate", context);
+
+	            emailService.sendEmail(emailRequest.getTo(), emailRequest.getSubject(), emailRequest.getBody());
+	            log.info("Email sent Successfully to :"+emailRequest.toString());
+	            return true;
+	        } catch (MessagingException e) {
+	            log.error("Failed to send email: " + e.getMessage());
+	        }
+	        return false;
+	    }
+
+}

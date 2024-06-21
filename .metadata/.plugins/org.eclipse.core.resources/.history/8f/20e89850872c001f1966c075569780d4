@@ -1,0 +1,11 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import com.ecommerce.AppEcommerce.user.exceptions.userException;
+
+@Data
+
+public class userValidateOtpResponse extends userException{
+
+	private String userStatusMsg;
+	
+}

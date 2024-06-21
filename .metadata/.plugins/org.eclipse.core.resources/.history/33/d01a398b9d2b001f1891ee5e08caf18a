@@ -1,0 +1,6 @@
+package com.ecommerce.AppEcommerce.user.exceptions;
+
+public class EmailAlreadyExistsException  extends RuntimeException{
+	
+
+}

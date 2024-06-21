@@ -1,0 +1,13 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import com.ecommerce.AppEcommerce.user.entities.User;
+
+public class UserResponse {
+	
+	private String userStatus;
+	
+	private String isUserAuth;
+	
+	private User user;
+
+}

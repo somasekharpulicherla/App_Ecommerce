@@ -1,0 +1,9 @@
+package com.ecommerce.AppEcommerce.global.entities;
+
+public class EmailRequest {
+	
+	private 
+	
+	emailRequest.getTo(), emailRequest.getSubject(), emailRequest.getBody()
+
+}

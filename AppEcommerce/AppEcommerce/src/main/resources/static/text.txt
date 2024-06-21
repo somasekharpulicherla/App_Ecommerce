@@ -1,0 +1,2 @@
+1) for lombok we need to add both dependency and lombok.jar to ide
+2) for mail password we need to get it from app passwords of google account

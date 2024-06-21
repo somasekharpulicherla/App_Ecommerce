@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Email Template</title>
+</head>
+<body>
+    <h3 th:text="'Hello, ' + ${name} + '!'"></h3>
+    <p>Thank you for registering with Sooha's Food Court. Explore more with us.</p>
+    
+    <p>Thanks and Regards,<br> </p>
+    <p></p>
+</body>
+</html>

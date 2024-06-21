@@ -1,0 +1,22 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import com.ecommerce.AppEcommerce.user.exceptions.userException;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
+
+public class userValidateOtpResponse extends userException{
+
+	private String userStatusMsg;
+
+	public userValidateOtpResponse( String userStatusMsg) {
+		super(error);
+		this.userStatusMsg = userStatusMsg;
+	}
+	
+	
+	
+}

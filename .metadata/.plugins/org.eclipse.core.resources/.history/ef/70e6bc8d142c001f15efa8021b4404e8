@@ -1,0 +1,25 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import com.ecommerce.AppEcommerce.user.entities.User;
+import com.ecommerce.AppEcommerce.user.exceptions.userException;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+public class UserLoginResponse extends userException{
+	
+	private String userStatus;
+	
+	private boolean isUserAuth;
+	
+	private User user;
+
+	public UserLoginResponse(String userStatus, boolean isUserAuth, User user,String error) {
+		super(error);
+		this.userStatus = userStatus;
+		this.isUserAuth = isUserAuth;
+		this.user = user;
+	}
+	
+}

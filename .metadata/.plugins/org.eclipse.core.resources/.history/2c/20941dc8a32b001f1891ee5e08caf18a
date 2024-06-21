@@ -1,0 +1,9 @@
+package com.ecommerce.AppEcommerce.user.service;
+
+import java.util.Optional;
+
+import com.ecommerce.AppEcommerce.user.requestResponses.AddUserRequest;
+
+public interface  UserService {
+       Optional<?> addUser(AddUserRequest addUserRequest);
+}

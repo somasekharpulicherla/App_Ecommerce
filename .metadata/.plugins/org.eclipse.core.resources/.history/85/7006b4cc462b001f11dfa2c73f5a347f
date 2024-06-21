@@ -1,0 +1,7 @@
+package com.ecommerce.AppEcommerce.user.enums;
+
+public @interface ValidGender {
+	
+	
+
+}

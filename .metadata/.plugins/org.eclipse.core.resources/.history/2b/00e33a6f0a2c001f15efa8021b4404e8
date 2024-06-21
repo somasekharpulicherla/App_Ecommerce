@@ -1,0 +1,29 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+
+@Data
+public class UserLoginRequest {
+	
+	@NotBlank(message="username can not be blank")
+	@Size(min = 3, max = 50, message = "First Name must be between 3 and 50 characters")
+	@Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Username must contain only alphabets and numbers")
+	@Column(unique = true, nullable = false)
+    private String username;
+	
+	
+	@NotBlank(message="Email or Username can not be blank")
+	private String usernameOrEmail;
+	
+	@NotBlank(message="Passcode can not be blank")
+	@Size(min = 8, max = 50, message = "Passcode must be between 3 and 50 characters")
+ = "Passcode must contain at least one uppercase, one lowercase, one digit, one special characters")
+	private String passcode;
+
+}

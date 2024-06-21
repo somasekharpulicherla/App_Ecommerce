@@ -1,0 +1,8 @@
+package com.ecommerce.AppEcommerce.user.exceptions;
+
+@Data
+public class userException {
+	
+	private String error;
+
+}

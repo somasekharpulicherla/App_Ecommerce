@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://google.com">
+
+<head>
+	<title>Sooha's Food Court</title>
+</head>
+
+<body>
+	<h3 th:text="'Hello, ' + ${name} + '!'"></h3>
+	<p th:text="'Thank you for registering with Sooha's Food court.Explore more with us.'"></p>
+	<p>Thanks and Regards,</p>
+	<p>Sooha's Food Court Team</p>
+
+</body>
+
+</html>

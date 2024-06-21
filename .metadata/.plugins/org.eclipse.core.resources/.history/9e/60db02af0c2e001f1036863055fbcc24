@@ -1,0 +1,9 @@
+package com.ecommerce.AppEcommerce.springsecurityjwt;
+
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+
+@Configurabl
+public class config extends WebSecurityConfiguration{
+
+}

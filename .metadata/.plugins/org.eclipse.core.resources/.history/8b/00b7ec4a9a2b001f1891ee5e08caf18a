@@ -1,0 +1,10 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+public class AddUserResponse {
+	
+	private String userMessage;
+	
+	private User user;
+
+	
+}

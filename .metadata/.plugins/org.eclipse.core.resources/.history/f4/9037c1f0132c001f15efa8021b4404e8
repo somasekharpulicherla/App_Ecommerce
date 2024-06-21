@@ -1,0 +1,19 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import com.ecommerce.AppEcommerce.user.entities.User;
+
+import lombok.Data;
+
+@Data
+public class AddUserResponse extends {
+
+	private String userMessage;
+	
+	private User user;
+	
+	public AddUserResponse(String userMessage, User user) {
+		this.userMessage=userMessage;
+		this.user=user;
+	}
+
+}

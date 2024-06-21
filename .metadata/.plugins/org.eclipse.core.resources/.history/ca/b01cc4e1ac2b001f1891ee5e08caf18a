@@ -1,0 +1,5 @@
+package com.ecommerce.AppEcommerce.globalExceptions;
+
+public class EmailNotSendException {
+
+}

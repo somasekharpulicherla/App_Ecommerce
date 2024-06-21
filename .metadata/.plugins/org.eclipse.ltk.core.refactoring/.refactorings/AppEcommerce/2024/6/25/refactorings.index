@@ -1,0 +1,24 @@
+1718512530354	Rename type 'UserRequest'
+1718512542305	Rename type 'UserResponse'
+1718522249120	Rename type 'GlobalService'
+1718522256618	Rename type 'GlobalServices'
+1718532827719	Move 'text.txt' to 'static'
+1718533585899	Rename resource 'emailTemplet'
+1718533607402	Rename resource 'emailTemplet.html'
+1718537766141	Rename resource 'emailTemplate.html'
+1718562040323	Copy compilation unit
+1718610533290	Copy compilation unit
+1718610708053	Rename compilation unit 'UserForgetPasscode.java'
+1718610725788	Rename type 'userValidateOtp'
+1718610815575	Copy compilation unit
+1718614665675	Rename type 'userValidateOtpRequest'
+1718614674071	Rename type 'userValidateOtpResponse'
+1718706323097	Copy compilation unit
+1718706417845	Delete element
+1718733057194	Move '403.html' to 'error'
+1718733060261	Move '404.html' to 'error'
+1718733066977	Rename resource 'public.error'
+1718735793005	Delete element
+1718735799283	Delete element
+1718735831218	Delete element
+1718781875792	Delete element

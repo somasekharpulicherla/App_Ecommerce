@@ -1,0 +1,12 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
+public class userValidateOtp {
+	
+	@NotBlank(message="One Time Passcode can not be blank")
+	@Pattern(regexp = "^[0-9]{6}$",message="One Time Passcod should contain only 6 digits.")
+	private String otp;
+
+}

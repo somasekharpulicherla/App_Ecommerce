@@ -1,0 +1,21 @@
+package com.ecommerce.AppEcommerce.user.requestResponses;
+
+import com.ecommerce.AppEcommerce.user.entities.User;
+import com.ecommerce.AppEcommerce.user.exceptions.userException;
+
+import lombok.Data;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
+public class AddUserResponse extends userException{
+
+	private String userMessage;
+	
+	private User user;
+	
+	public AddUserResponse(String userMessage, User user) {
+		this.userMessage=userMessage;
+		this.user=user;
+	}
+
+}
